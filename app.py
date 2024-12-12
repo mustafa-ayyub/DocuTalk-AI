@@ -6,6 +6,8 @@ and answer questions based on the provided text content.
 """
 
 import streamlit as st
+from src.services.files_processing import process_files
+from src.services.text_processing import get_text_chunks
 
 st.set_page_config(page_title="DocuTalk-AI", page_icon="📄")
 
@@ -23,7 +25,20 @@ with st.sidebar:
 
     if st.button("Process"):
         if uploaded_files:
-            st.success("Files uploaded successfully!")
+            with st.spinner("Processing your documents..."):
+                raw_text = process_files(uploaded_files)
+                preview_text = raw_text[:100]
+
+                st.success("Step 1: Text extraction complete ✅")
+                st.subheader("Preview of the Extracted Text:")
+                st.write(preview_text)
+
+                text_chunks = get_text_chunks(raw_text)
+                text_chunks_preview = text_chunks[0]
+                st.success("Step 2: Text chunking complete ✅")
+                st.write(text_chunks_preview)
+
+
         else:
             st.warning("Please upload files to process.")
 

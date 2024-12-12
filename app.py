@@ -8,12 +8,15 @@ and answer questions based on the provided text content.
 import streamlit as st
 from src.services.files_processing import process_files
 from src.services.text_processing import get_text_chunks
+from src.services.embeddings import get_vectorstore
+from dotenv import load_dotenv
 
 st.set_page_config(page_title="DocuTalk-AI", page_icon="📄")
 
 st.title("DocuTalk-AI")
 st.write("An AI-powered assistant to process your documents and answer your questions.")
 
+load_dotenv()
 # Sidebar for file upload
 with st.sidebar:
     st.subheader("Your documents")
@@ -34,9 +37,12 @@ with st.sidebar:
                 st.write(preview_text)
 
                 text_chunks = get_text_chunks(raw_text)
-                text_chunks_preview = text_chunks[0]
+                text_chunks_preview = text_chunks[0][:150]
                 st.success("Step 2: Text chunking complete ✅")
                 st.write(text_chunks_preview)
+
+                vectorstore = get_vectorstore(text_chunks)
+                st.success("Step 3: Embeddings creation complete ✅")
 
 
         else:

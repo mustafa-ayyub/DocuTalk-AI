@@ -17,9 +17,14 @@ st.title("DocuTalk-AI")
 st.write("An AI-powered assistant to process your documents and answer your questions.")
 
 load_dotenv()
+
 # Sidebar for file upload
 with st.sidebar:
     st.subheader("Your documents")
+    document_category = st.selectbox(
+        "Select the category of your document:",
+        ["Select a category...", "Law", "Education", "Health Care", "Business"]
+    )
     uploaded_files = st.file_uploader(
         "Upload your files here and click on 'Process'",
         type=["pdf", "docx", "txt"],

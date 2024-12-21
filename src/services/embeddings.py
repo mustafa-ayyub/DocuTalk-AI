@@ -36,7 +36,7 @@ def get_vectorstore(text_chunks, use_huggingface=True):
         embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
         print("No Api KEy...")
 
-    # Chroma can be in-memory (default) or you can specify a persist_directory
+    # ChromaDb(Light Weight FIASS ALTERNATIVE)
     # vectorstore = Chroma.from_texts(text_chunks, embeddings)
     # print("Chroma Vectorstore created:", vectorstore)
 

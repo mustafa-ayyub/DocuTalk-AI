@@ -34,7 +34,7 @@ def get_vectorstore(text_chunks, use_huggingface=True):
         print("Using Hugging Face Embeddings...")
     else:
         embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
-        print("No Api KEy...")
+        print("No Api KEY...")
 
     # ChromaDb(Light Weight FIASS ALTERNATIVE)
     # vectorstore = Chroma.from_texts(text_chunks, embeddings)

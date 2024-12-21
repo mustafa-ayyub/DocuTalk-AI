@@ -59,6 +59,7 @@ with st.form("chat-form", clear_on_submit=True):
     # Input field for user question
     user_question = st.text_input("Type your question here...")
 
+    print(user_question)
     # Submit button for the form
     submit_button = st.form_submit_button("Submit")
 

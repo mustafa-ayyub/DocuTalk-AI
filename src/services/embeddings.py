@@ -19,7 +19,7 @@ def get_vectorstore(text_chunks, use_huggingface=True):
     Creates a Chroma vectorstore from text chunks, using either OpenAI or Hugging Face embeddings.
 
     Args:
-        text_chunks (list[str]): List of text chunks to embed.
+        text_chunks (list[str]): List of text chunks to embed..
         use_huggingface (bool): If True, use Hugging Face embeddings. Otherwise, use OpenAI.
 
     Returns:

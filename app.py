@@ -1,3 +1,8 @@
+"""
+DocuTalk-AI Streamlit App
+This app provides an AI-powered assistant to process documents 
+and answer questions based on the provided text content.
+"""
 import streamlit as st
 from src.services.files_processing import process_files
 from src.services.text_processing import get_text_chunks
@@ -21,7 +26,7 @@ with st.sidebar:
         accept_multiple_files=True,
     )
     if uploaded_files:
-        document_metadata = {}  # Dictionary to store file name and category
+        document_metadata = {}  
 
         categories = ["Uncatogerized", "Law", "Education", "Health Care", "Business"]
 
@@ -35,12 +40,11 @@ with st.sidebar:
                 categories,
                 key=f"category_{file_name}"  
             )
-             
+          
             document_metadata[file_name] = document_category
 
         st.write("### Document Metadata")
-        st.json(document_metadata)
-
+        
         if st.button("Process"):
             with st.spinner("Processing your documents..."):
                 # Simulate document processing
@@ -74,14 +78,12 @@ with st.form("chat-form", clear_on_submit=True):
     # Submit button for the form
     submit_button = st.form_submit_button("Submit")
 
-    # If the submit button is pressed, display the input question
     if submit_button:
         if user_question.strip():
             st.write(f"**Your Question:** {user_question}")
         else:
             st.warning("Please enter a question.")
-
-# Show uploaded file names if any files are uploaded
+            
 if uploaded_files:
     st.subheader("Uploaded Files:")
     for file in uploaded_files:

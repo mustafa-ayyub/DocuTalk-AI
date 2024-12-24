@@ -3,7 +3,7 @@ Module to create and manage FAISS vectorstores using sentence transformers.
 """
 
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 def get_vectorstore(text_chunks):
     """

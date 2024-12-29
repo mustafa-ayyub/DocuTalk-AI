@@ -7,7 +7,6 @@ Functions:
 - extract_txt_text: Extracts text from a TXT file.
 - process_files: Processes multiple files and combines their extracted text.
 """
-
 from PyPDF2 import PdfReader
 from docx import Document
 

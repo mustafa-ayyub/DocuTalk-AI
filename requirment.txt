@@ -8,3 +8,5 @@ openai
 python-docx
 langchain_huggingface
 sentence-transformers
+firebase-admin
+pyrebase4

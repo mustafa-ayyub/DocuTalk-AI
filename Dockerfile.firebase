@@ -1,16 +1,12 @@
 # Use Node.js as a base image
 FROM node:16-slim
 
-# Set the working directory
 WORKDIR /app
 
-# Install Firebase CLI
 RUN npm install -g firebase-tools
 
-# Copy the Firebase configuration file if required
 COPY firebase_creds.json ./
 
-# Expose emulator ports
 EXPOSE 9000 9099 8085
 
 # Default command to run the Firebase Emulator

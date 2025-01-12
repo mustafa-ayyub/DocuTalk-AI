@@ -6,3 +6,5 @@ __pycache__/
 firebase_creds.json
 # Streamlit
 .streamlit/
+
+.terminal_docker_command

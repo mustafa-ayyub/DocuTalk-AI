@@ -47,9 +47,18 @@ else:
         st.warning("Your username is missing. Please contact support.")
 
     if st.button("Logout"):
+        st.write("Logging out...")
         MESSAGE = logout_user()
+        st.write(f"Session before clearing: {st.session_state}")
+        
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+            
+        st.write(f"Session after clearing: {st.session_state}")
         st.success(MESSAGE)
         st.experimental_rerun()
+
+
 
     with st.sidebar:
         st.subheader("Your documents")

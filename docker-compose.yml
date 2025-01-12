@@ -10,7 +10,7 @@ services:
     env_file:
       - .env # Load Firebase and other environment variables
     depends_on:
-      - firebase_emulator # Optional: Firebase Emulator for local testing
+      - firebase_emulator #  Firebase Emulator for local testing
 
   firebase_emulator:
     build:

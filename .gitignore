@@ -4,7 +4,7 @@ __pycache__/
 .venv/
 .env
 firebase_creds.json
+firebase.json
 # Streamlit
 .streamlit/
-
 .terminal_docker_command

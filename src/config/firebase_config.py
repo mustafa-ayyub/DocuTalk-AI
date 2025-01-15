@@ -21,14 +21,14 @@ firebase_config = {
 }
 
 service_account_path = os.getenv("FIREBASE_SERVICE_ACCOUNT")
-cred = credentials.Certificate(service_account_path)
-firebase_admin.initialize_app(
-    cred, {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")}
-)
 
-# Initialize Pyrebase for authentication
+if not firebase_admin._apps:
+    cred = credentials.Certificate(service_account_path)
+    firebase_admin.initialize_app(
+        cred, {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")}
+    )
+
 firebase = pyrebase.initialize_app(firebase_config)
 auth = firebase.auth()
 
-# Firebase Admin SDK's database reference
 admin_db = db

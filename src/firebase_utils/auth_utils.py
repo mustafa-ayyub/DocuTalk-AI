@@ -27,7 +27,7 @@ def register_user(email, password):
         return {"error": "An unexpected error occurred. Please try again later."}
 
 def logout_user(cookie_controller):
-     """Logs out the current user."""
+    """Logs out the current user."""
     st.session_state.authenticated = False
     st.session_state.user_data = {}
     st.session_state.current_page = "main"

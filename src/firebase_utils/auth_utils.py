@@ -58,7 +58,7 @@ def check_authentication(cookie_controller):
     if user_id:
         st.session_state.authenticated = True
         user_data = get_user_data(user_id)
-        user_data["user_id"] = user_id  #
+        user_data["user_id"] = user_id
         st.session_state.user_data = user_data
     else:
         st.session_state.authenticated = False

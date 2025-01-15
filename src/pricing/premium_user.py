@@ -18,6 +18,13 @@ stripe.api_key = STRIPE_API_KEY
 def setup_stripe_session():
     """Create a Stripe checkout session."""
     try:
+        environment = os.getenv("ENVIRONMENT", "local")
+        if environment == "local":
+            success_url = os.getenv("LOCAL_SUCCESS_URL")
+            cancel_url = os.getenv("LOCAL_CANCEL_URL")
+        else:
+            success_url = os.getenv("DEPLOYED_SUCCESS_URL")
+            cancel_url = os.getenv("DEPLOYED_CANCEL_URL")
         return stripe.checkout.Session.create(
             payment_method_types=["card"],
             line_items=[
@@ -35,8 +42,8 @@ def setup_stripe_session():
                 }
             ],
             mode="subscription",
-            success_url="http://localhost:8501/?current_page=success",
-            cancel_url="http://localhost:8501/?current_page=cancel",
+            success_url=success_url,
+            cancel_url=cancel_url,
         )
     except Exception as e:
         st.error(f"An error occurred while creating the Stripe session: {e}")

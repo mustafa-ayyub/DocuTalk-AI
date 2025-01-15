@@ -4,15 +4,6 @@ This app provides an AI-powered assistant to process documents
 and answer questions based on the provided text content.
 """
 
-
-
-
-
-
-
-
-
-
 import streamlit as st
 from dotenv import load_dotenv
 from streamlit_cookies_controller import CookieController

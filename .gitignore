@@ -4,5 +4,3 @@ __pycache__/
 .venv/
 .env
 firebase_creds.json
-# Streamlit
-.streamlit/

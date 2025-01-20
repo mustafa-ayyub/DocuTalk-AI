@@ -4,7 +4,7 @@ Streamlit login form for user authentication.
 from datetime import datetime
 import streamlit as st
 from src.firebase_utils.auth_utils import authenticate_user
-from src.firebase_utils.db_utils import get_user_data
+from src.firebase_utils.db_utils import get_user_data, get_user_id_by_email
 
 def display_login_form():
     """Displays the login form and returns user inputs."""
@@ -31,20 +31,21 @@ def process_login(email, password):
         return None
     return response["user"]
 
-def fetch_and_set_user_data(user):
+def fetch_and_set_user_data(user, cookie_controller):
     """Fetches and sets user data in the session state."""
-    user_id = user["localId"]
+    user_id = get_user_id_by_email(user["email"])
     user_data = get_user_data(user_id)
     if user_data and "error" not in user_data:
         st.session_state.authenticated = True
         st.session_state.user = user
+        user_data["user_id"] = user_id
         st.session_state.user_data = user_data
+        cookie_controller.set("user_id", user_id)
         st.success(f"Welcome back, {user_data.get('username', 'User')}!")
-        st.experimental_rerun()
     else:
         st.error("Failed to retrieve user data. Please contact support.")
 
-def login_form():
+def login_form(cookie_controller):
     """Main function to handle the login workflow."""
     email, password, submit = display_login_form()
 
@@ -56,7 +57,7 @@ def login_form():
 
     user = process_login(email, password)
     if user:
-        fetch_and_set_user_data(user)
+        fetch_and_set_user_data(user, cookie_controller)
 
 def get_welcome_message(name):
     """

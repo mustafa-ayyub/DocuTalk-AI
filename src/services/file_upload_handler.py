@@ -47,6 +47,8 @@ def handle_file_upload(user_id):
                     try:
                         raw_text = process_files(uploaded_files, document_metadata)
                         st.success("Text extraction complete ✅")
+                        st.write("### Preview of Extracted Text:")
+                        st.write(raw_text[:100])
 
                         text_chunks = get_text_chunks(raw_text)
                         st.success("Text chunking complete ✅")

@@ -1,43 +1,34 @@
+"""
+Module for answering questions using OpenAI GPT and vectorstore context.
+"""
+
 import os
 from openai import OpenAI
 from .context import get_assistant_role, get_mixed_categories_role
 
-BASE_URL_OF_NVIDA = "https://integrate.api.nvidia.com/v1"
-
-def initialize_nvidia_client():
+def initialize_openai_client():
     """
-    Initialize NVIDIA client with API key and base URL.
+    Initialize OpenAI client with API key.
     """
-    api_key = os.environ.get("NVIDIA_API_KEY")
+    api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        raise ValueError("API key for NVIDIA is not provided.")
-    return OpenAI(
-        base_url=BASE_URL_OF_NVIDA,
-        api_key=api_key
-    )
+        raise ValueError("API key for OpenAI is not provided.")
+    return OpenAI(api_key=api_key)
 
-def generate_answer(prompt, client, model="nvidia/llama-3.1-nemotron-70b-instruct", max_tokens=500, temperature=0.5):
+def generate_answer(prompt, client, model="gpt-3.5-turbo", max_tokens=500, temperature=0.1):
     """
-    Generate an answer using NVIDIA model.
+    Generate an answer using OpenAI.
     """
     response = client.chat.completions.create(
-        model=model,
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ],
+        model=model,
         max_tokens=max_tokens,
-        temperature=temperature,
-        top_p=1,
-        stream=True
+        temperature=temperature
     )
-
-    answer = ""
-    for chunk in response:
-        if chunk.choices[0].delta.content is not None:
-            answer += chunk.choices[0].delta.content
-
-    return answer
+    return response.choices[0].message.content
 
 def prepare_context(user_question, vectorstore, top_k=3):
     """
@@ -72,7 +63,7 @@ def generate_prompt(context, question, chat_context, categories):
     """
     if not context.strip():
         return "No relevant content found to answer your question."
-    print("Length of categories is: ", len(set(categories)))
+    print("Lenth of categories is: ", len(set(categories)))
 
     if len(set(categories)) == 1:
         category = categories[0]
@@ -81,7 +72,7 @@ def generate_prompt(context, question, chat_context, categories):
     else:
         print("Mixed categories detected.")
         assistant_role = get_mixed_categories_role()
-
+        
     prompt = (
         f"{assistant_role}\n\n"
         f"Here is the ongoing conversation for context:\n{chat_context}\n\n"
@@ -92,16 +83,101 @@ def generate_prompt(context, question, chat_context, categories):
     )
     return prompt
 
+
 def answer_user_question(user_question, vectorstore, chat_context):
     """
-    Answer a question using vectorstore and NVIDIA's OpenAI integration.
+    Answer a question using vectorstore and OpenAI.
     """
-    client = initialize_nvidia_client()
-
+    client = initialize_openai_client()
+    
     context, categories = prepare_context(user_question, vectorstore)
     if not context:
         return "No relevant information found in your uploaded documents."
+    
 
     prompt = generate_prompt(context, user_question, chat_context, categories)
     return generate_answer(prompt, client)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from langchain.chains import ConversationalRetrievalChain
+# from langchain_community.chat_models import ChatOpenAI
+# from langchain.memory import ConversationBufferMemory
+# import os
+
+
+# def get_conversation_chain(vectorstore):
+#     """
+#     Create a ConversationalRetrievalChain with memory and explicit output key.
+
+#     Args:
+#         vectorstore: The vectorstore retriever object.
+
+#     Returns:
+#         ConversationalRetrievalChain: A chain that supports conversational QA.
+#     """
+#     llm = ChatOpenAI(
+#         temperature=0,
+#         model="gpt-3.5-turbo",  # Use "gpt-3.5-turbo" or "gpt-4"
+#         openai_api_key=os.getenv("OPENAI_API_KEY")
+#     )
+    
+#     # Explicitly configure memory
+#     memory = ConversationBufferMemory(
+#         memory_key="chat_history",  # Store chat history in this key
+#         input_key="question",      # Specify the input key for memory
+#         output_key="answer",       # Ensure memory stores only the 'answer' key
+#         return_messages=True       # Ensures the memory returns in message format
+#     )
+    
+#     # Create the conversational retrieval chain
+#     conversation_chain = ConversationalRetrievalChain.from_llm(
+#         llm=llm,
+#         retriever=vectorstore.as_retriever(),
+#         memory=memory,
+#         return_source_documents=True,
+#         output_key="answer"  # Explicitly set the key to use in memory
+#     )
+    
+#     return conversation_chain
+
+
+
+
+
+
+# from langchain_openai import ChatOpenAI
+# from langchain.memory import ConversationBufferMemory
+# from langchain.chains import ConversationalRetrievalChain
+# import os
+
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# def get_conversation_chain(vectorstore):
+#     llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0.2,model="gpt-3.5-turbo")
+#     memory = ConversationBufferMemory(
+#         memory_key='chat_history', return_messages=True)
+#     conversation_chain = ConversationalRetrievalChain.from_llm(
+#         llm=llm,
+#         retriever=vectorstore.as_retriever( search_type="similarity",  search_kwargs={"k": 3}),
+#         memory=memory
+#     )
+#     return conversation_chain

@@ -88,4 +88,3 @@ if st.session_state.chat_history:
     for chat in reversed(st.session_state.chat_history):
         st.write(f"**Q:** {chat['question']}")
         st.write(f"**A:** {chat['answer']}\n")
-

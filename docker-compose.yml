@@ -1,0 +1,29 @@
+services:
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501" # Streamlit default port
+    volumes:
+      - .:/app 
+    env_file:
+      - .env # 
+    depends_on:
+      - firebase_emulator
+
+  firebase_emulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.firebase
+    ports:
+      - "9099:9099" # Authentication Emulator
+      - "9000:9000" # Realtime Database Emulator
+      - "8085:8085" # Firestore Emulator
+    command: >
+      firebase emulators:start
+      --only auth,database,firestore
+    volumes:
+      - .:/app
+    environment:
+      FIREBASE_PROJECT: "docutalk-2e8aa"

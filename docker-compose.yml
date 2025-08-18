@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - ./src:/workspace/src
+    ports:
+      - "8000:8000"
+  frontend:
+    working_dir: /app
+    image: node:20-slim
+    volumes:
+      - ./frontend:/app
+    command: bash -lc "npm i && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+

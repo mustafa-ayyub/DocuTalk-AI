@@ -1,0 +1,37 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-dotenv==1.0.1
+
+# Firebase and Google
+firebase-admin==6.6.0
+Pyrebase4==4.8.0
+google-auth==2.29.0
+google-cloud-firestore==2.19.0
+google-cloud-storage==2.19.0
+
+# File Processing and Document Handling
+PyPDF2==3.0.1
+python-docx==1.1.2
+
+# NLP and Question Answering
+langchain==0.3.7
+sentence-transformers==3.3.1
+faiss-cpu==1.7.4
+tiktoken==0.8.0
+transformers==4.47.1
+langchain_huggingface
+pinecone
+langchain_pinecone
+openai
+
+# Utilities
+requests==2.32.3
+pandas==2.2.3
+numpy==1.26.0
+tqdm==4.67.1
+
+# Payments
+stripe==11.4.1
